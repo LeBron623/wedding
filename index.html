@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Plan de table — Notre Mariage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bordeaux: #ab2442;
+      --brun: #623013;
+      --bordeaux-light: #c94060;
+      --brun-light: #8a4520;
+      --cream: #fdf6ee;
+      --cream-dark: #f5e8d8;
+      --gold: #d4a843;
+      --text: #2a1a10;
+      --text-muted: #7a5a45;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── BACKGROUND TEXTURE ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(171,36,66,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 60% at 80% 100%, rgba(98,48,19,0.10) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 48px 24px 32px;
+    }
+
+    .ornament {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; margin-bottom: 16px;
+    }
+    .ornament-line {
+      height: 1px; width: 60px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .ornament-line:last-child { background: linear-gradient(270deg, transparent, var(--gold)); }
+    .ornament svg { width: 20px; height: 20px; fill: var(--gold); }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 8vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--bordeaux);
+      line-height: 1.1;
+    }
+    h1 em { font-style: italic; font-weight: 400; }
+
+    .subtitle {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 10px;
+    }
+
+    /* ─── COUNTDOWN ─── */
+    .countdown {
+      display: flex; justify-content: center; gap: 20px;
+      margin: 24px auto 0;
+      max-width: 320px;
+    }
+    .countdown-unit {
+      display: flex; flex-direction: column; align-items: center;
+      background: white; border: 1px solid rgba(171,36,66,0.15);
+      border-radius: 10px; padding: 10px 16px;
+      min-width: 64px; box-shadow: 0 2px 12px rgba(98,48,19,0.06);
+    }
+    .countdown-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 600;
+      color: var(--bordeaux); line-height: 1;
+    }
+    .countdown-label {
+      font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-muted); margin-top: 4px;
+    }
+
+    /* ─── SEARCH SECTION ─── */
+    .search-section {
+      position: relative; z-index: 1;
+      padding: 0 20px 32px;
+      max-width: 420px; margin: 0 auto;
+    }
+
+    .search-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 8px 40px rgba(98,48,19,0.10), 0 1px 0 rgba(171,36,66,0.08);
+      border: 1px solid rgba(171,36,66,0.08);
+    }
+
+    .search-label {
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-muted);
+      display: block; margin-bottom: 12px;
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+    #search-input {
+      width: 100%; padding: 14px 48px 14px 18px;
+      border: 1.5px solid rgba(171,36,66,0.2);
+      border-radius: 12px; font-family: 'Jost', sans-serif;
+      font-size: 1rem; background: var(--cream); color: var(--text);
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    #search-input:focus {
+      border-color: var(--bordeaux);
+      box-shadow: 0 0 0 3px rgba(171,36,66,0.08);
+    }
+    #search-input::placeholder { color: #c0a898; }
+
+    .search-icon {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); pointer-events: none;
+    }
+
+    /* Suggestions */
+    #suggestions {
+      background: white; border: 1.5px solid rgba(171,36,66,0.15);
+      border-radius: 12px; margin-top: 6px;
+      overflow: hidden; display: none;
+      box-shadow: 0 8px 24px rgba(98,48,19,0.10);
+    }
+    .suggestion-item {
+      padding: 13px 18px; cursor: pointer;
+      font-size: 0.95rem; transition: background 0.15s;
+      border-bottom: 1px solid rgba(171,36,66,0.06);
+    }
+    .suggestion-item:last-child { border-bottom: none; }
+    .suggestion-item:hover, .suggestion-item.active { background: var(--cream); }
+    .suggestion-highlight { color: var(--bordeaux); font-weight: 500; }
+
+    /* ─── RESULT CARD ─── */
+    #result {
+      display: none;
+      margin-top: 20px;
+      animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .result-inner {
+      background: linear-gradient(135deg, var(--bordeaux) 0%, var(--brun) 100%);
+      border-radius: 16px; padding: 24px;
+      color: white; position: relative; overflow: hidden;
+    }
+    .result-inner::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+    .result-inner::after {
+      content: '';
+      position: absolute; bottom: -20px; left: -20px;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .result-greeting {
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.7; margin-bottom: 6px;
+    }
+    .result-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 400; letter-spacing: 0.02em;
+      line-height: 1.2; margin-bottom: 16px;
+    }
+
+    .result-table-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px; padding: 8px 18px;
+      font-size: 0.85rem;
+    }
+    .table-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600; line-height: 1;
+      color: var(--gold);
+    }
+
+    .btn-show-plan {
+      display: block; width: 100%;
+      margin-top: 16px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white; font-family: 'Jost', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 11px;
+      border-radius: 10px; cursor: pointer;
+      transition: background 0.2s; position: relative; z-index: 1;
+    }
+    .btn-show-plan:hover { background: rgba(255,255,255,0.2); }
+
+    /* ─── ROOM PLAN ─── */
+    #plan-section {
+      display: none; position: relative; z-index: 1;
+      padding: 0 20px 32px; max-width: 420px; margin: 0 auto;
+      animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .plan-title {
+      text-align: center; margin-bottom: 16px;
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    .room-canvas-wrap {
+      background: white; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(98,48,19,0.10);
+      border: 1px solid rgba(171,36,66,0.08);
+      padding: 16px;
+    }
+
+    #room-canvas {
+      width: 100%; height: auto; display: block;
+      border-radius: 10px;
+    }
+
+    /* ─── GAME SECTION (hidden easter egg) ─── */
+    .game-trigger-hint {
+      text-align: center; margin: 8px 0 32px;
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(98,48,19,0.25);
+      cursor: default; user-select: none;
+      position: relative; z-index: 1;
+    }
+    .game-trigger-hint span { 
+      border-bottom: 1px dashed rgba(98,48,19,0.2); 
+      cursor: pointer; transition: color 0.2s;
+    }
+    .game-trigger-hint span:hover { color: var(--bordeaux); }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(20,8,4,0.7); z-index: 100;
+      backdrop-filter: blur(4px);
+      animation: fadeIn 0.2s ease;
+      align-items: flex-end; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: var(--cream); border-radius: 24px 24px 0 0;
+      padding: 28px 24px 40px;
+      width: 100%; max-width: 480px;
+      max-height: 90vh; overflow-y: auto;
+      animation: slideUpModal 0.3s cubic-bezier(0.34,1.3,0.64,1);
+    }
+    @keyframes slideUpModal {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-handle {
+      width: 40px; height: 4px; border-radius: 2px;
+      background: rgba(98,48,19,0.2); margin: 0 auto 20px;
+    }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: none; border: none; font-size: 1.4rem;
+      cursor: pointer; color: var(--text-muted); line-height: 1;
+    }
+
+    /* ─── QUIZ GAME ─── */
+    .quiz-header {
+      text-align: center; margin-bottom: 24px;
+    }
+    .quiz-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; color: var(--bordeaux);
+      font-weight: 400;
+    }
+    .quiz-header p {
+      font-size: 0.82rem; color: var(--text-muted); margin-top: 6px;
+    }
+
+    .quiz-progress {
+      display: flex; gap: 6px; justify-content: center; margin-bottom: 20px;
+    }
+    .progress-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(171,36,66,0.15);
+      transition: background 0.3s;
+    }
+    .progress-dot.done { background: var(--bordeaux); }
+    .progress-dot.current { background: var(--gold); }
+
+    .quiz-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; text-align: center;
+      margin-bottom: 20px; line-height: 1.4;
+      color: var(--text);
+    }
+
+    .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+
+    .quiz-option {
+      background: white; border: 1.5px solid rgba(171,36,66,0.15);
+      border-radius: 12px; padding: 13px 16px;
+      cursor: pointer; font-family: 'Jost', sans-serif;
+      font-size: 0.9rem; text-align: left;
+      transition: all 0.18s; color: var(--text);
+    }
+    .quiz-option:hover { border-color: var(--bordeaux); background: var(--cream); }
+    .quiz-option.correct {
+      border-color: #2d7a3a; background: #e8f5ea; color: #1a5c26;
+    }
+    .quiz-option.wrong {
+      border-color: #c0392b; background: #fdecea; color: #8b1a1a;
+    }
+
+    .quiz-feedback {
+      text-align: center; margin-top: 14px;
+      font-size: 0.85rem; min-height: 22px; color: var(--text-muted);
+    }
+
+    .quiz-score {
+      text-align: center; padding: 20px;
+    }
+    .quiz-score .score-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem; color: var(--bordeaux); font-weight: 600;
+      line-height: 1;
+    }
+    .quiz-score p { font-size: 0.9rem; color: var(--text-muted); margin-top: 8px; }
+
+    .btn-primary {
+      display: block; width: 100%; margin-top: 16px;
+      background: linear-gradient(135deg, var(--bordeaux), var(--brun));
+      color: white; border: none; border-radius: 12px;
+      padding: 13px; font-family: 'Jost', sans-serif;
+      font-size: 0.85rem; letter-spacing: 0.1em;
+      text-transform: uppercase; cursor: pointer;
+      transition: opacity 0.2s; font-weight: 500;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+
+    /* ─── NOT FOUND ─── */
+    .not-found {
+      text-align: center; padding: 20px;
+      color: var(--bordeaux); font-size: 0.9rem;
+    }
+    .not-found strong {
+      font-family: 'Cormorant Garamond', serif;
+      display: block; font-size: 1.3rem; margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="ornament">
+    <div class="ornament-line"></div>
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" style="display:none"/></svg>
+    <!-- Rose SVG -->
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 6 C16 6 10 10 10 16 C10 20 13 23 16 24 C19 23 22 20 22 16 C22 10 16 6 16 6Z" fill="var(--gold)" opacity="0.7"/>
+      <path d="M16 24 L15 30 L16 29 L17 30 Z" fill="var(--brun)" opacity="0.5"/>
+      <path d="M10 16 C8 14 6 16 8 18 C9 20 12 20 14 20" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+      <path d="M22 16 C24 14 26 16 24 18 C23 20 20 20 18 20" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+    </svg>
+    <div class="ornament-line"></div>
+  </div>
+
+  <h1><em>Votre table</em><br>vous attend</h1>
+  <p class="subtitle">Plan de table · Le grand jour</p>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown" id="countdown">
+    <div class="countdown-unit"><span class="countdown-num" id="cd-j">—</span><span class="countdown-label">Jours</span></div>
+    <div class="countdown-unit"><span class="countdown-num" id="cd-h">—</span><span class="countdown-label">Heures</span></div>
+    <div class="countdown-unit"><span class="countdown-num" id="cd-m">—</span><span class="countdown-label">Min</span></div>
+  </div>
+</header>
+
+<!-- SEARCH -->
+<section class="search-section">
+  <div class="search-card">
+    <label class="search-label" for="search-input">Chercher votre prénom ou nom</label>
+    <div class="search-wrapper">
+      <input type="text" id="search-input" placeholder="Ex : Marie Dupont…" autocomplete="off" />
+      <span class="search-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </span>
+    </div>
+    <div id="suggestions"></div>
+
+    <!-- RESULT -->
+    <div id="result">
+      <div class="result-inner" id="result-inner">
+        <p class="result-greeting">Bienvenue !</p>
+        <p class="result-name" id="result-name">Marie Dupont</p>
+        <div class="result-table-badge">
+          <span>Table</span>
+          <span class="table-number" id="result-table">3</span>
+        </div>
+        <button class="btn-show-plan" onclick="showPlan()">Voir sur le plan de salle ↓</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOM PLAN -->
+<section id="plan-section">
+  <p class="plan-title">Plan de la salle</p>
+  <div class="room-canvas-wrap">
+    <canvas id="room-canvas"></canvas>
+  </div>
+</section>
+
+<!-- EASTER EGG HINT -->
+<p class="game-trigger-hint">
+  <span id="egg-trigger" onclick="openQuiz()">💌 Un petit secret vous attend ici</span>
+</p>
+
+<!-- QUIZ MODAL -->
+<div class="modal-overlay" id="quiz-modal" onclick="handleOverlayClick(event)">
+  <div class="modal" id="quiz-inner">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeQuiz()">✕</button>
+    <div class="quiz-header">
+      <h2>Vous les connaissez vraiment ?</h2>
+      <p>Un quiz sur les mariés — on verra bien 😄</p>
+    </div>
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <p class="quiz-question" id="quiz-q"></p>
+    <div class="quiz-options" id="quiz-opts"></div>
+    <p class="quiz-feedback" id="quiz-feedback"></p>
+    <div id="quiz-result-screen" style="display:none">
+      <div class="quiz-score">
+        <div class="score-num" id="score-display">0/6</div>
+        <p id="score-msg"></p>
+      </div>
+      <button class="btn-primary" onclick="restartQuiz()">Rejouer</button>
+      <button class="btn-primary" style="margin-top:8px; background: rgba(98,48,19,0.15); color: var(--brun);" onclick="closeQuiz()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// CONFIG — À PERSONNALISER
+// ════════════════════════════════════════════
+const WEDDING_DATE = new Date('2026-09-05T15:00:00'); // ← Changer la date ici
+const CSV_PATH = 'guests.csv'; // ← Fichier CSV dans le même dossier
+
+// Plan de salle : positions des tables (en %)
+// x, y = centre de la table (% de la largeur/hauteur du canvas)
+const TABLE_LAYOUT = [
+  { id: 1,  x: 20, y: 25, shape: 'round' },
+  { id: 2,  x: 50, y: 25, shape: 'round' },
+  { id: 3,  x: 80, y: 25, shape: 'round' },
+  { id: 4,  x: 20, y: 55, shape: 'round' },
+  { id: 5,  x: 50, y: 55, shape: 'round' },
+  { id: 6,  x: 80, y: 55, shape: 'round' },
+  { id: 7,  x: 50, y: 82, shape: 'long'  },  // Table des mariés
+];
+
+// Quiz — Remplacez par vos vraies questions !
+const QUIZ = [
+  {
+    q: "Où le couple s'est-il rencontré pour la première fois ?",
+    opts: ["À une soirée", "Au travail", "Sur une appli", "En voyage"],
+    ans: 0 // index de la bonne réponse (0 = "À une soirée")
+  },
+  {
+    q: "Combien de temps ont-ils mis avant leur premier rendez-vous ?",
+    opts: ["1 semaine", "1 mois", "3 mois", "6 mois"],
+    ans: 1
+  },
+  {
+    q: "Quelle est leur destination de voyage préférée ensemble ?",
+    opts: ["L'Italie", "Le Japon", "Le Portugal", "Le Maroc"],
+    ans: 2
+  },
+  {
+    q: "Comment s'appelle le premier animal de compagnie du couple ?",
+    opts: ["Luna", "Caramel", "Mochi", "Ils n'en ont pas"],
+    ans: 3
+  },
+  {
+    q: "Dans quelle ville s'est déroulée la demande en mariage ?",
+    opts: ["Paris", "Rome", "Barcelone", "À la maison"],
+    ans: 0
+  },
+  {
+    q: "Quel est le plat que l'un d'eux ne supporte pas ?",
+    opts: ["La betterave", "Le céleri", "Les anchois", "La coriandre"],
+    ans: 1
+  },
+];
+
+// ════════════════════════════════════════════
+// COUNTDOWN
+// ════════════════════════════════════════════
+function updateCountdown() {
+  const now = new Date();
+  const diff = WEDDING_DATE - now;
+  if (diff <= 0) {
+    document.getElementById('countdown').innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;color:var(--bordeaux);font-size:1.1rem;letter-spacing:0.05em">✨ C\'est aujourd\'hui !</p>';
+    return;
+  }
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  document.getElementById('cd-j').textContent = d;
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 30000);
+
+// ════════════════════════════════════════════
+// CSV LOADING
+// ════════════════════════════════════════════
+let guestData = [];
+
+async function loadCSV() {
+  try {
+    const res = await fetch(CSV_PATH);
+    if (!res.ok) throw new Error('CSV non trouvé');
+    const text = await res.text();
+    parseCSV(text);
+  } catch(e) {
+    console.warn('CSV non chargé, utilisation des données de démo');
+    loadDemoData();
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const nameIdx = header.findIndex(h => h.includes('nom') || h.includes('name') || h.includes('prénom'));
+  const tableIdx = header.findIndex(h => h.includes('table'));
+
+  for (let i = 1; i < lines.length; i++) {
+    const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+    if (cols.length < 2) continue;
+    const name = cols[nameIdx >= 0 ? nameIdx : 0];
+    const table = parseInt(cols[tableIdx >= 0 ? tableIdx : 1]);
+    if (name && !isNaN(table)) guestData.push({ name, table });
+  }
+}
+
+function loadDemoData() {
+  guestData = [
+    { name: "Marie Dupont", table: 1 },
+    { name: "Jean Martin", table: 1 },
+    { name: "Sophie Bernard", table: 2 },
+    { name: "Lucas Petit", table: 2 },
+    { name: "Emma Moreau", table: 3 },
+    { name: "Paul Simon", table: 3 },
+    { name: "Claire Richard", table: 4 },
+    { name: "Antoine Lefebvre", table: 4 },
+    { name: "Léa Thomas", table: 5 },
+    { name: "Hugo Leroy", table: 5 },
+    { name: "Camille Roux", table: 6 },
+    { name: "Maxime Fournier", table: 6 },
+    { name: "Julie Girard", table: 7 },
+    { name: "Nicolas Morel", table: 7 },
+  ];
+}
+
+// ════════════════════════════════════════════
+// SEARCH
+// ════════════════════════════════════════════
+const searchInput = document.getElementById('search-input');
+const suggestionsBox = document.getElementById('suggestions');
+let selectedGuest = null;
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  suggestionsBox.style.display = 'none';
+  suggestionsBox.innerHTML = '';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('plan-section').style.display = 'none';
+  selectedGuest = null;
+
+  if (q.length < 2) return;
+
+  const matches = guestData.filter(g => g.name.toLowerCase().includes(q)).slice(0, 6);
+  if (matches.length === 0) {
+    suggestionsBox.innerHTML = '<div class="suggestion-item not-found"><strong>Aucun résultat</strong>Vérifiez l\'orthographe ou contactez les mariés.</div>';
+    suggestionsBox.style.display = 'block';
+    return;
+  }
+
+  matches.forEach(guest => {
+    const div = document.createElement('div');
+    div.className = 'suggestion-item';
+    const re = new RegExp(`(${q})`, 'gi');
+    div.innerHTML = guest.name.replace(re, '<span class="suggestion-highlight">$1</span>');
+    div.addEventListener('click', () => selectGuest(guest));
+    suggestionsBox.appendChild(div);
+  });
+  suggestionsBox.style.display = 'block';
+});
+
+function selectGuest(guest) {
+  selectedGuest = guest;
+  searchInput.value = guest.name;
+  suggestionsBox.style.display = 'none';
+  showResult(guest);
+}
+
+function showResult(guest) {
+  document.getElementById('result-name').textContent = guest.name;
+  document.getElementById('result-table').textContent = guest.table;
+  const r = document.getElementById('result');
+  r.style.display = 'block';
+  // Re-trigger animation
+  r.style.animation = 'none';
+  r.offsetHeight;
+  r.style.animation = '';
+}
+
+// ════════════════════════════════════════════
+// ROOM PLAN CANVAS
+// ════════════════════════════════════════════
+function showPlan() {
+  const ps = document.getElementById('plan-section');
+  ps.style.display = 'block';
+  ps.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => drawPlan(selectedGuest ? selectedGuest.table : null), 100);
+}
+
+function drawPlan(highlightTable) {
+  const canvas = document.getElementById('room-canvas');
+  const W = canvas.offsetWidth;
+  const H = W * 1.1;
+  canvas.width = W * 2; canvas.height = H * 2;
+  canvas.style.height = H + 'px';
+  const ctx = canvas.getContext('2d');
+  const s = 2; // scale for retina
+
+  // Background
+  ctx.fillStyle = '#fdf6ee';
+  ctx.fillRect(0, 0, W*s, H*s);
+
+  // Room border
+  ctx.strokeStyle = 'rgba(171,36,66,0.2)';
+  ctx.lineWidth = 2*s;
+  ctx.strokeRect(20*s, 20*s, (W-40)*s, (H-40)*s);
+
+  // Door
+  const doorX = (W/2 - 30)*s, doorY = (H-20)*s;
+  ctx.clearRect(doorX, doorY-2, 60*s, 4*s);
+  ctx.fillStyle = 'rgba(171,36,66,0.15)';
+  ctx.fillRect(doorX, doorY-12*s, 60*s, 12*s);
+  ctx.fillStyle = '#ab2442';
+  ctx.font = `${9*s}px Jost, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('ENTRÉE', W/2*s, (H-6)*s);
+
+  // Stage / head table label
+  ctx.fillStyle = 'rgba(98,48,19,0.07)';
+  ctx.fillRect(30*s, 30*s, (W-60)*s, 28*s);
+  ctx.strokeStyle = 'rgba(98,48,19,0.15)';
+  ctx.lineWidth = 1*s;
+  ctx.strokeRect(30*s, 30*s, (W-60)*s, 28*s);
+  ctx.fillStyle = 'rgba(98,48,19,0.4)';
+  ctx.font = `${7*s}px Jost`;
+  ctx.textAlign = 'center';
+  ctx.fillText('PISTE DE DANSE', W/2*s, 48*s);
+
+  // Draw tables
+  TABLE_LAYOUT.forEach(t => {
+    const cx = t.x / 100 * (W - 60) + 30;
+    const cy = t.y / 100 * (H - 80) + 60;
+    const isHL = t.id === highlightTable;
+
+    if (t.shape === 'long') {
+      // Table des mariés
+      const tw = 90, th = 22;
+      ctx.save();
+      ctx.shadowColor = isHL ? 'rgba(171,36,66,0.4)' : 'rgba(98,48,19,0.1)';
+      ctx.shadowBlur = isHL ? 16*s : 8*s;
+      ctx.fillStyle = isHL ? 'rgba(171,36,66,0.9)' : 'rgba(98,48,19,0.12)';
+      ctx.beginPath();
+      const rx = (cx-tw/2)*s, ry = (cy-th/2)*s;
+      const rw = tw*s, rh = th*s, r = 6*s;
+      ctx.moveTo(rx+r, ry); ctx.lineTo(rx+rw-r, ry);
+      ctx.quadraticCurveTo(rx+rw, ry, rx+rw, ry+r);
+      ctx.lineTo(rx+rw, ry+rh-r);
+      ctx.quadraticCurveTo(rx+rw, ry+rh, rx+rw-r, ry+rh);
+      ctx.lineTo(rx+r, ry+rh);
+      ctx.quadraticCurveTo(rx, ry+rh, rx, ry+rh-r);
+      ctx.lineTo(rx, ry+r);
+      ctx.quadraticCurveTo(rx, ry, rx+r, ry);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.fillStyle = isHL ? 'white' : 'rgba(98,48,19,0.5)';
+      ctx.font = `bold ${8*s}px Jost`;
+      ctx.textAlign = 'center';
+      ctx.fillText('♥ MARIÉS', cx*s, (cy+3)*s);
+
+    } else {
+      // Round table
+      const rad = 22;
+      ctx.save();
+      ctx.shadowColor = isHL ? 'rgba(171,36,66,0.5)' : 'rgba(98,48,19,0.1)';
+      ctx.shadowBlur = isHL ? 18*s : 6*s;
+      ctx.beginPath();
+      ctx.arc(cx*s, cy*s, rad*s, 0, Math.PI*2);
+      ctx.fillStyle = isHL ? 'rgba(171,36,66,0.88)' : 'rgba(98,48,19,0.10)';
+      ctx.fill();
+      ctx.strokeStyle = isHL ? 'rgba(171,36,66,0.4)' : 'rgba(98,48,19,0.2)';
+      ctx.lineWidth = 1.5*s;
+      ctx.stroke();
+      ctx.restore();
+
+      // Table number
+      ctx.fillStyle = isHL ? 'white' : 'rgba(98,48,19,0.55)';
+      ctx.font = `${isHL ? 'bold ' : ''}${10*s}px Cormorant Garamond, serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(t.id, cx*s, (cy + 4)*s);
+
+      // Pulsing ring for highlighted
+      if (isHL) {
+        ctx.beginPath();
+        ctx.arc(cx*s, cy*s, (rad+7)*s, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(171,36,66,0.25)';
+        ctx.lineWidth = 2*s;
+        ctx.stroke();
+      }
+    }
+
+    // Label below
+    if (t.shape !== 'long') {
+      ctx.fillStyle = 'rgba(98,48,19,0.35)';
+      ctx.font = `${6*s}px Jost`;
+      ctx.textAlign = 'center';
+      ctx.fillText(`Table ${t.id}`, cx*s, (cy+32)*s);
+    }
+  });
+
+  // Legend
+  if (highlightTable) {
+    ctx.fillStyle = 'rgba(171,36,66,0.85)';
+    ctx.beginPath();
+    ctx.arc(30*s, (H-12)*s, 5*s, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(98,48,19,0.7)';
+    ctx.font = `${7*s}px Jost`;
+    ctx.textAlign = 'left';
+    ctx.fillText('Votre table', 38*s, (H-9)*s);
+  }
+}
+
+// ════════════════════════════════════════════
+// QUIZ
+// ════════════════════════════════════════════
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function openQuiz() {
+  quizIdx = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quiz-result-screen').style.display = 'none';
+  document.getElementById('quiz-modal').classList.add('open');
+  renderQuiz();
+}
+function closeQuiz() {
+  document.getElementById('quiz-modal').classList.remove('open');
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('quiz-modal')) closeQuiz();
+}
+
+function renderQuiz() {
+  const q = QUIZ[quizIdx];
+  document.getElementById('quiz-q').textContent = q.q;
+  document.getElementById('quiz-feedback').textContent = '';
+
+  // Progress
+  const prog = document.getElementById('quiz-progress');
+  prog.innerHTML = QUIZ.map((_, i) =>
+    `<div class="progress-dot ${i < quizIdx ? 'done' : i === quizIdx ? 'current' : ''}"></div>`
+  ).join('');
+
+  // Options
+  const opts = document.getElementById('quiz-opts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.addEventListener('click', () => answerQuiz(i, btn));
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(chosen, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = QUIZ[quizIdx];
+  const opts = document.querySelectorAll('.quiz-option');
+
+  opts[q.ans].classList.add('correct');
+  if (chosen !== q.ans) {
+    btn.classList.add('wrong');
+    document.getElementById('quiz-feedback').textContent = '😅 Pas tout à fait… mais vous essayez !';
+  } else {
+    quizScore++;
+    document.getElementById('quiz-feedback').textContent = '✓ Bravo, vous les connaissez bien !';
+  }
+
+  setTimeout(() => {
+    quizIdx++;
+    quizAnswered = false;
+    if (quizIdx >= QUIZ.length) {
+      showQuizResult();
+    } else {
+      renderQuiz();
+    }
+  }, 1200);
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-q').textContent = '';
+  document.getElementById('quiz-opts').innerHTML = '';
+  document.getElementById('quiz-feedback').textContent = '';
+  document.getElementById('quiz-progress').innerHTML = QUIZ.map(() => `<div class="progress-dot done"></div>`).join('');
+
+  const msgs = [
+    "Hm… vous avez du mérite d'être là 😅",
+    "Pas mal ! Vous les connaissez un peu.",
+    "Plutôt bien ! Ce sont de bons amis.",
+    "Impressionnant ! Vous faites presque partie de la famille.",
+    "Parfait ! Avez-vous espionné leurs conversations ?",
+  ];
+  const pct = quizScore / QUIZ.length;
+  const msg = msgs[Math.min(Math.floor(pct * msgs.length), msgs.length - 1)];
+
+  document.getElementById('score-display').textContent = `${quizScore}/${QUIZ.length}`;
+  document.getElementById('score-msg').textContent = msg;
+  document.getElementById('quiz-result-screen').style.display = 'block';
+}
+
+function restartQuiz() {
+  quizIdx = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quiz-result-screen').style.display = 'none';
+  renderQuiz();
+}
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+loadCSV();
+</script>
+</body>
+</html>
