@@ -478,7 +478,7 @@
 // ════════════════════════════════════════════
 // CONFIG — À PERSONNALISER
 // ════════════════════════════════════════════
-const WEDDING_DATE = new Date('2026-09-05T15:00:00'); // ← Changer la date ici
+const WEDDING_DATE = new Date('2026-07-18T15:00:00'); // ← Changer la date ici
 const CSV_PATH = 'guests.csv'; // ← Fichier CSV dans le même dossier
 
 // Plan de salle : positions des tables (en %)
@@ -497,17 +497,17 @@ const TABLE_LAYOUT = [
 const QUIZ = [
   {
     q: "Où le couple s'est-il rencontré pour la première fois ?",
-    opts: ["À une soirée", "Au travail", "Sur une appli", "En voyage"],
+    opts: ["À l'école", "Au travail", "En voyage"],
     ans: 0 // index de la bonne réponse (0 = "À une soirée")
   },
   {
     q: "Combien de temps ont-ils mis avant leur premier rendez-vous ?",
-    opts: ["1 semaine", "1 mois", "3 mois", "6 mois"],
+    opts: ["3 jours","3 semaines","3 mois", "6 mois"],
     ans: 1
   },
   {
     q: "Quelle est leur destination de voyage préférée ensemble ?",
-    opts: ["L'Italie", "Le Japon", "Le Portugal", "Le Maroc"],
+    opts: ["Lyon", "Londres", "Barcelone"],
     ans: 2
   },
   {
@@ -517,13 +517,13 @@ const QUIZ = [
   },
   {
     q: "Dans quelle ville s'est déroulée la demande en mariage ?",
-    opts: ["Paris", "Rome", "Barcelone", "À la maison"],
-    ans: 0
+    opts: ["Paris", "Venise", "Barcelone", "Levallois-Perret"],
+    ans: 3
   },
   {
     q: "Quel est le plat que l'un d'eux ne supporte pas ?",
-    opts: ["La betterave", "Le céleri", "Les anchois", "La coriandre"],
-    ans: 1
+    opts: ["La betterave", "La mayonnaise", "Le caramel", "La coriandre"],
+    ans: [1, 2]
   },
 ];
 
@@ -832,14 +832,20 @@ function answerQuiz(chosen, btn) {
   const q = QUIZ[quizIdx];
   const opts = document.querySelectorAll('.quiz-option');
 
-  opts[q.ans].classList.add('correct');
-  if (chosen !== q.ans) {
-    btn.classList.add('wrong');
-    document.getElementById('quiz-feedback').textContent = '😅 Pas tout à fait… mais vous essayez !';
-  } else {
-    quizScore++;
-    document.getElementById('quiz-feedback').textContent = '✓ Bravo, vous les connaissez bien !';
-  }
+  const correctList = Array.isArray(q.ans) ? q.ans : [q.ans];
+const isCorrect = correctList.includes(chosen);
+
+correctList.forEach(i => opts[i].classList.add('correct'));
+
+if (!isCorrect) {
+  btn.classList.add('wrong');
+  document.getElementById('quiz-feedback').textContent = '😅 Pas tout à fait… mais vous essayez !';
+} else {
+  quizScore++;
+  document.getElementById('quiz-feedback').textContent = correctList.length > 1
+    ? '✓ Bonne réponse ! (plusieurs étaient acceptées)'
+    : '✓ Bravo, vous les connaissez bien !';
+}
 
   setTimeout(() => {
     quizIdx++;
