@@ -216,19 +216,8 @@ html, body{
   stroke: var(--room-line);
   stroke-width: 2;
 }
-.room-shape.terrasse{
-  fill: rgba(107,61,94,0.05);
-  stroke-dasharray: 4 3;
-}
 .room-shape.hall{
   fill: none;
-}
-
-.room-text{
-  font-size: 13px;
-  fill: var(--aubergine-light);
-  text-anchor: middle;
-  font-family: 'Poppins', sans-serif;
 }
 
 .deco-box{
