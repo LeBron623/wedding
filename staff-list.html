@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Placement — Liste des invités</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="decor-line top"></div>
+
+<main class="app list-app">
+
+  <nav class="staff-nav"><a href="staff.html">← Rechercher un invité</a></nav>
+  <h1 class="title list-title">Liste des invités</h1>
+  <p id="counter" class="subtitle">Chargement…</p>
+
+  <div class="search-wrap list-filter-wrap">
+    <input
+      type="text"
+      id="filterInput"
+      class="name-input"
+      placeholder="Filtrer par prénom ou table..."
+      autocomplete="off"
+      spellcheck="false"
+    />
+  </div>
+
+  <div class="list-scroll">
+    <ul id="guestList" class="guest-list"></ul>
+    <p id="emptyMsg" class="no-match hidden">Aucun invité ne correspond.</p>
+  </div>
+
+</main>
+
+<div class="decor-line bottom"></div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/utils.js"></script>
+<script src="assets/js/staff-list.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Notre Mariage — Trouvez votre table</title>
+<title>Placement — Recherche invité</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,27 +17,30 @@
 
   <!-- ÉCRAN 1 : recherche du prénom -->
   <section id="screen-search" class="screen active">
+    <nav class="staff-nav"><a href="staff-list.html">Voir la liste complète →</a></nav>
     <div class="monogram">✦</div>
-    <h1 class="title">Bienvenue</h1>
-    <p class="subtitle">Entrez votre prénom pour trouver votre table</p>
+    <h1 class="title">Placement</h1>
+    <p class="subtitle">Cherchez le prénom de l'invité</p>
 
     <div class="search-wrap">
       <input
         type="text"
         id="nameInput"
         class="name-input"
-        placeholder="Votre prénom..."
+        placeholder="Chargement des invités…"
         autocomplete="off"
         autocapitalize="words"
         spellcheck="false"
+        disabled
       />
       <ul id="suggestions" class="suggestions"></ul>
     </div>
 
-    <p id="noMatch" class="no-match hidden">Aucun prénom trouvé. Vérifiez l'orthographe ou demandez de l'aide 🙂</p>
+    <p id="noMatch" class="no-match hidden">Aucun prénom trouvé. Vérifiez l'orthographe.</p>
+    <p id="loadError" class="no-match hidden">Impossible de charger la liste. Vérifiez la connexion internet et rechargez la page.</p>
   </section>
 
-  <!-- ÉCRAN 2 : résultat + plan -->
+  <!-- ÉCRAN 2 : résultat + plan + validation -->
   <section id="screen-result" class="screen">
     <button id="backBtn" class="back-btn" aria-label="Retour">← Retour</button>
 
@@ -45,6 +48,14 @@
     <p class="table-info">
       Votre table : <strong id="tableNumber">—</strong>
     </p>
+
+    <div class="seat-status">
+      <button id="seatToggleBtn" class="seat-btn">✓ Marquer comme installé(e)</button>
+      <p id="seatConfirmed" class="seat-confirmed hidden">
+        ✔ Installé(e) à <span id="seatTime"></span>
+        <button id="seatUndoBtn" class="seat-undo">annuler</button>
+      </p>
+    </div>
 
     <div class="plan-wrap">
       <svg id="planSvg" viewBox="220 30 714 538" xmlns="http://www.w3.org/2000/svg" aria-label="Plan de la salle">
@@ -69,18 +80,17 @@
 
       </svg>
     </div>
-
-    <p class="hint">📍 Votre table est mise en évidence sur le plan, avec le chemin depuis l'entrée.</p>
   </section>
 
 </main>
 
 <div class="decor-line bottom"></div>
 
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
 <script src="assets/js/utils.js"></script>
-<script src="assets/js/guests.js"></script>
 <script src="assets/js/tables.js"></script>
 <script src="assets/js/plan.js"></script>
-<script src="assets/js/script.js"></script>
+<script src="assets/js/staff.js"></script>
 </body>
 </html>
