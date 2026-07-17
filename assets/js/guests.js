@@ -144,7 +144,7 @@ const GUESTS = [
     "table": "4"
   },
   {
-    "name": "Celya",
+    "name": "Célya",
     "table": "1"
   },
   {
@@ -180,7 +180,7 @@ const GUESTS = [
     "table": "16"
   },
   {
-    "name": "David Alexandre",
+    "name": "David-Alexandre",
     "table": "13"
   },
   {
@@ -212,7 +212,7 @@ const GUESTS = [
     "table": "13"
   },
   {
-    "name": "Fadji",
+    "name": "Sandra",
     "table": "15"
   },
   {
@@ -360,7 +360,7 @@ const GUESTS = [
     "table": "14"
   },
   {
-    "name": "Maelle",
+    "name": "Maëlle",
     "table": "1"
   },
   {
@@ -372,11 +372,11 @@ const GUESTS = [
     "table": "18"
   },
   {
-    "name": "Malou",
+    "name": "Ludmila",
     "table": "8"
   },
   {
-    "name": "Maman",
+    "name": "Ève",
     "table": "9"
   },
   {
@@ -412,7 +412,7 @@ const GUESTS = [
     "table": "7"
   },
   {
-    "name": "Melissa",
+    "name": "Mélissa",
     "table": "11"
   },
   {
@@ -504,7 +504,7 @@ const GUESTS = [
     "table": "1"
   },
   {
-    "name": "Papi",
+    "name": "Michel",
     "table": "8"
   },
   {
@@ -544,7 +544,7 @@ const GUESTS = [
     "table": "19"
   },
   {
-    "name": "Sandra",
+    "name": "Sandra K.",
     "table": "3"
   },
   {
@@ -564,7 +564,7 @@ const GUESTS = [
     "table": "1"
   },
   {
-    "name": "Sofiane. D",
+    "name": "Sofiane D.",
     "table": "10"
   },
   {
@@ -652,7 +652,7 @@ const GUESTS = [
     "table": "11"
   },
   {
-    "name": "Yakouba",
+    "name": "Yacouba",
     "table": "7"
   },
   {
@@ -680,7 +680,7 @@ const GUESTS = [
     "table": "10"
   },
   {
-    "name": "Zoé. CA",
+    "name": "Zoé. Ca",
     "table": "11"
   },
   {
