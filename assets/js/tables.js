@@ -1,6 +1,6 @@
 // Coordonnées et métadonnées des tables, dans le système de coordonnées du plan SVG (viewBox 0 0 1000 600)
 const TABLES = {
-  "1": { label: "Table des mariés", capacity: 13, shape: "rect", x: 519, y: 428, w: 172, h: 44, note: "" },
+  "1": { label: "Table des mariés", capacity: 13, shape: "rect", x: 604, y: 450, w: 136, h: 46, note: "" },
   "2": { label: "Amour secret", capacity: 7, shape: "circle", x: 390, y: 392, r: 27, note: "" },
   "3": { label: "Chessy / Gwada", capacity: 7, shape: "circle", x: 328, y: 456, r: 26, note: "" },
   "4": { label: "Copines filles + cousines", capacity: 10, shape: "circle", x: 390, y: 502, r: 30, note: "" },
@@ -18,11 +18,10 @@ const TABLES = {
   "16": { label: "Basket", capacity: 10, shape: "circle", x: 509, y: 115, r: 30, note: "" },
   "17": { label: "Jeunes chessy", capacity: 9, shape: "circle", x: 440, y: 77, r: 28, note: "" },
   "18": { label: "Ado", capacity: 10, shape: "circle", x: 378, y: 115, r: 30, note: "" },
-  "19": { label: "Enfants", capacity: 10, shape: "rect", x: 293, y: 86, w: 138, h: 46, note: "" }
+  "19": { label: "Enfants", capacity: 10, shape: "rect", x: 293, y: 128, w: 46, h: 140, note: "" }
 };
 
-// Points d'entrée de la salle (sur le mur de gauche)
+// Point d'entrée de la salle (sur le mur de gauche)
 const ENTRANCES = [
-  { id: "haut", x: 234, y: 254 },
-  { id: "bas", x: 234, y: 410 }
+  { id: "haut", x: 234, y: 254 }
 ];

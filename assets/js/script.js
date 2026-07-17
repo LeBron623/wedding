@@ -62,27 +62,7 @@
         );
       }
 
-      g.appendChild(
-        el(
-          "text",
-          { class: "table-number", x: t.x, y: t.y - (t.shape === "rect" ? 6 : 4) },
-          "T" + num
-        )
-      );
-      g.appendChild(
-        el(
-          "text",
-          { class: "table-caption", x: t.x, y: t.y + (t.shape === "rect" ? 10 : 10) },
-          t.label
-        )
-      );
-      g.appendChild(
-        el(
-          "text",
-          { class: "table-capacity", x: t.x, y: t.y + (t.shape === "rect" ? 21 : 21) },
-          t.capacity + " p" + (t.note ? " · " + t.note : "")
-        )
-      );
+      g.appendChild(el("text", { class: "table-number", x: t.x, y: t.y + 6 }, num));
 
       tablesLayer.appendChild(g);
     });
