@@ -203,14 +203,6 @@ body{
   color: var(--aubergine);
   font-size: 1.15em;
 }
-.table-label{
-  display: block;
-  font-style: italic;
-  color: var(--aubergine-light);
-  margin-top: 2px;
-  font-size: 0.85em;
-}
-
 .plan-wrap{
   width: 100%;
   aspect-ratio: 714 / 538;

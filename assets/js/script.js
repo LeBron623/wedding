@@ -9,7 +9,6 @@
   const backBtn = document.getElementById("backBtn");
   const guestNameEl = document.getElementById("guestName");
   const tableNumberEl = document.getElementById("tableNumber");
-  const tableLabelEl = document.getElementById("tableLabel");
   const tablesLayer = document.getElementById("tables-layer");
   const pathLayer = document.getElementById("path-layer");
 
@@ -173,9 +172,7 @@
 
   function selectGuest(guest) {
     guestNameEl.textContent = guest.name;
-    const t = TABLES[guest.table];
     tableNumberEl.textContent = "Table " + guest.table;
-    tableLabelEl.textContent = t ? t.label : "";
 
     highlightTable(guest.table);
     drawPath(guest.table);
